@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Artemis II Alert</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <h1>🚀 Artemis II Launch Alert</h1>
+  <button onclick="enableNotifications()">Enable Notifications</button>
+
+  <script>
+    const launchTime = new Date("2026-02-06T13:00:00Z");
+
+    function enableNotifications() {
+      Notification.requestPermission().then(p => {
+        if (p === "granted") {
+          alert("Notifications enabled 🚀");
+          schedule();
+        }
+      });
+    }
+
+    function schedule() {
+      setInterval(() => {
+        const diff = launchTime - new Date();
+        if (diff > 0 && diff < 3600000) {
+          new Notification("🚀 Artemis II Launch Soon", {
+            body: "Less than 1 hour to liftoff.",
+            icon: "icon.png"
+          });
+        }
+      }, 60000);
+    }
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
+  </script>
+</body>
+</html>
